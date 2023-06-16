@@ -85,8 +85,6 @@
     "vitest": "^0.31.1"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "pnpm lint",
-    "*.{css,scss}": "pnpm stylelint",
     "*.{css,scss,js,jsx,ts,tsx,json,md}": "pnpm format"
   }
 }

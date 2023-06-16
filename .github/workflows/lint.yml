@@ -1,4 +1,4 @@
-name: Testing build Next.js App
+name: ESLint & Stylelint
 
 on:
   pull_request:
@@ -24,5 +24,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Testing build Next.js App
-        run: pnpm build
+      - name: Run ESLint
+        run: pnpm lint
+
+      - name: Run Stylelint
+        run: pnpm stylelint
