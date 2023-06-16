@@ -1,8 +1,8 @@
 import { ServerStyles, createStylesServer } from '@mantine/next';
 import type { DocumentContext } from 'next/document';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
-import { GoogleTagManager } from '@/shared/components/GoogleTagManager';
-import { generateCsp } from '@/shared/lib/generateCsp';
+import { GoogleTagManager } from '@/components/GoogleTagManager';
+import { generateCsp } from '@/lib/generateCsp';
 
 const stylesServer = createStylesServer();
 
