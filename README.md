@@ -13,7 +13,7 @@ npm i -g pnpm
 ### 1. クローンする
 
 ```sh
-git clone https://github.com/cp-20/hackathon-23-spring-test
+git clone git@github.com:traP-jp/h23s_26-UI.git
 ```
 
 ### 2. 必要なものをインストールする
