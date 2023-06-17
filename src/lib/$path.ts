@@ -1,4 +1,7 @@
 export const pagesPath = {
+  "ranking": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/ranking' as const, hash: url?.hash })
+  },
   $url: (url?: { hash?: string }) => ({ pathname: '/' as const, hash: url?.hash })
 }
 
