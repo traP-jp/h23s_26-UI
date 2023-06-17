@@ -2,8 +2,7 @@ import { css } from '@emotion/react';
 import { Anchor, Card, SimpleGrid, Text, UnstyledButton } from '@mantine/core';
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import { HeaderResponsive } from '@/components/Header';
-import { Footer } from '@/components/MobileFooter';
+import { Layout } from '@/components/Layout';
 import type { GetMissionsResponse } from '@/schema/schema';
 
 const Missions: NextPage = () => {
@@ -24,8 +23,7 @@ const Missions: NextPage = () => {
   ]);
 
   return (
-    <>
-      <HeaderResponsive />
+    <Layout>
       <div>
         <Text size="xl" weight={700}>
           Missions
@@ -50,8 +48,7 @@ const Missions: NextPage = () => {
           ))}
         </SimpleGrid>
       </div>
-      <Footer />
-    </>
+    </Layout>
   );
 };
 
