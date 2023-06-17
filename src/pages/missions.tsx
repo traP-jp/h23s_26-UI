@@ -1,12 +1,13 @@
 import { css } from '@emotion/react';
-import { Card, Text, useMantineTheme } from '@mantine/core';
+import { Card, Overlay, Text, useMantineTheme } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { Layout } from '@/components/Layout';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetMissionsResponse } from '@/schema/schema';
+import type { GetMissionsResponse, GetUserResponse } from '@/schema/schema';
 
 const Missions: NextPage = () => {
   const theme = useMantineTheme();
@@ -16,6 +17,11 @@ const Missions: NextPage = () => {
     error,
     isLoading,
   } = useSWR<GetMissionsResponse>(`${getApiBaseUrl()}/missions`, fetcher);
+  const { data: user } = useSWR<GetUserResponse>(
+    `${getApiBaseUrl()}/users/me`,
+    fetcher,
+  );
+
   if (error) return <div>failed to load: {error.message}</div>;
   if (isLoading) return <div>loading...</div>;
 
@@ -52,6 +58,18 @@ const Missions: NextPage = () => {
                   }
                 `}
               >
+                {user?.achieves.includes(mission.id) && (
+                  <Overlay
+                    css={css`
+                      display: grid;
+                      background-color: ${theme.fn.rgba(theme.white, 0.8)};
+                      color: ${theme.colors.lime[5]};
+                      place-items: center;
+                    `}
+                  >
+                    <IconCheck size="5rem" />
+                  </Overlay>
+                )}
                 <Text fw="500" className="mission-title">
                   {mission.name}
                 </Text>
