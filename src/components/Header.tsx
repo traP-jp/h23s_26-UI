@@ -1,19 +1,99 @@
-import { css } from '@emotion/react';
 import {
+  createStyles,
   Header,
   Container,
   Group,
+  Burger,
+  Paper,
+  Transition,
   rem,
-  MediaQuery,
-  useMantineTheme,
 } from '@mantine/core';
 
+import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import type { FC, ReactNode } from 'react';
+import { useState } from 'react';
 import { pagesPath } from '@/lib/$path';
 
 const HEADER_HEIGHT = rem(60);
+
+const useStyles = createStyles((theme) => ({
+  root: {
+    position: 'relative',
+    zIndex: 1,
+  },
+
+  dropdown: {
+    position: 'absolute',
+    top: HEADER_HEIGHT,
+    left: 0,
+    right: 0,
+    zIndex: 0,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopWidth: 0,
+    overflow: 'hidden',
+
+    [theme.fn.largerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '100%',
+  },
+
+  links: {
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  burger: {
+    [theme.fn.largerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  link: {
+    display: 'block',
+    lineHeight: 1,
+    padding: `${rem(8)} ${rem(12)}`,
+    borderRadius: theme.radius.sm,
+    textDecoration: 'none',
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 500,
+
+    '&:hover': {
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark[6]
+          : theme.colors.gray[0],
+    },
+
+    [theme.fn.smallerThan('sm')]: {
+      borderRadius: 0,
+      padding: theme.spacing.md,
+    },
+  },
+
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor,
+      }).background,
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+        .color,
+    },
+  },
+}));
 
 const links = [
   { link: '/dashboard', label: 'DashBoard' },
@@ -21,115 +101,50 @@ const links = [
   { link: 'ranking', label: 'Ranking' },
 ];
 
-type HeaderLinkProps = {
-  href: string;
-  children: ReactNode;
-  active: boolean;
-};
-
-const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
-  const theme = useMantineTheme();
-
-  return (
-    <Link
-      href={href}
-      css={css`
-        display: block;
-        padding: ${rem(8)} ${rem(12)};
-        border-radius: ${theme.radius.sm};
-        color: ${theme.colorScheme === 'dark'
-          ? theme.colors.dark[0]
-          : theme.colors.gray[7]};
-        font-size: ${theme.fontSizes.sm};
-        font-weight: 500;
-        line-height: 1;
-        text-decoration: none;
-
-        &:hover {
-          background-color: ${theme.colorScheme === 'dark'
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0]};
-        }
-
-        @media screen and (max-width: ${theme.breakpoints.sm}px) {
-          padding: ${theme.spacing.md};
-          border-radius: 0;
-        }
-
-        ${active &&
-        css`
-          /* stylelint-disable-next-line no-descending-specificity */
-          &,
-          &:hover {
-            background-color: ${theme.fn.variant({
-              variant: 'light',
-              color: theme.primaryColor,
-            }).background};
-            color: ${theme.fn.variant({
-              variant: 'light',
-              color: theme.primaryColor,
-            }).color};
-          }
-        `}
-      `}
-    >
-      {children}
-    </Link>
-  );
-};
-
 export function HeaderResponsive() {
-  const theme = useMantineTheme();
-  const { pathname } = useRouter();
+  const [opened, { toggle, close }] = useDisclosure(false);
+  const [active, setActive] = useState(links[0]?.link);
+  const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
-    <HeaderLink
+    <Link
       key={link.label}
       href={link.link}
-      active={pathname === link.link}
+      className={cx(classes.link, {
+        [classes.linkActive]: active === link.link,
+      })}
+      onClick={(event) => {
+        event.preventDefault();
+        setActive(link.link);
+        close();
+      }}
     >
       {link.label}
-    </HeaderLink>
+    </Link>
   ));
 
   return (
-    <Header
-      height={HEADER_HEIGHT}
-      mb={120}
-      css={css`
-        position: relative;
-        z-index: 1;
-      `}
-    >
-      <Container
-        css={css`
-          display: flex;
-          height: 100%;
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <Link
-          href={pagesPath.$url()}
-          css={css`
-            padding: ${rem(8)} ${rem(12)};
-            border-radius: ${theme.radius.sm};
-            color: ${theme.colors.dark[5]};
-            font-weight: bold;
-            text-decoration: none;
+    <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
+      <Container className={classes.header}>
+        <Link href={pagesPath.$url()}>traP Mission</Link>
+        <Group spacing={5} className={classes.links}>
+          {items}
+        </Group>
 
-            &:hover {
-              background-color: ${theme.colorScheme === 'dark'
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0]};
-            }
-          `}
-        >
-          ★ traP Mission
-        </Link>
-        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-          <Group spacing={5}>{items}</Group>
-        </MediaQuery>
+        <Burger
+          opened={opened}
+          onClick={toggle}
+          className={classes.burger}
+          size="sm"
+        />
+
+        <Transition transition="pop-top-right" duration={200} mounted={opened}>
+          {(styles) => (
+            <Paper className={classes.dropdown} withBorder style={styles}>
+              {items}
+            </Paper>
+          )}
+        </Transition>
       </Container>
     </Header>
   );
