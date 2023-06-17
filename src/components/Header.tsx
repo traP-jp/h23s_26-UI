@@ -8,7 +8,7 @@ import {
   Transition,
   rem,
 } from '@mantine/core';
-import { MantineLogo } from '@mantine/ds';
+
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -123,7 +123,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
-        <MantineLogo size={28} />
+        <div>traP Mission</div>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
