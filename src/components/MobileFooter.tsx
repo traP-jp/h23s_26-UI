@@ -27,12 +27,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface FooterCenteredProps {
-  links: { link: string; label: string }[];
-}
-
-export function FooterCentered({ links }: FooterCenteredProps) {
+export function FooterCentered() {
   const { classes } = useStyles();
+
+  const links = [
+    { label: 'DashBoard', link: '/dashboard' },
+    { label: 'Missions', link: '/missions' },
+    { label: 'Ranking', link: '/ranking' },
+  ];
 
   const items = links.map((link) => (
     <Anchor<'a'>

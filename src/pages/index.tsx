@@ -4,11 +4,6 @@ import { Description } from '@/components/Description';
 import { FooterCentered } from '@/components/MobileFooter';
 
 const Home: NextPage = () => {
-  const links = [
-    { label: 'DashBoard', link: '/DashBoard' },
-    { label: 'Missions', link: '/Missions' },
-    { label: 'Ranking', link: '/Ranking' },
-  ];
   return (
     <>
       <Description
@@ -28,7 +23,7 @@ const Home: NextPage = () => {
           Next.jsをMantine
           UIと一緒に色々セットアップしてあるオレオレテンプレートリポジトリです。ご利用は計画的に。
         </p>
-        <FooterCentered links={links} />
+        <FooterCentered />
       </div>
     </>
   );
