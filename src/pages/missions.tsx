@@ -1,5 +1,12 @@
 import { css } from '@emotion/react';
-import { Card, Overlay, Skeleton, Text, useMantineTheme } from '@mantine/core';
+import {
+  Card,
+  Overlay,
+  RingProgress,
+  Skeleton,
+  Text,
+  useMantineTheme,
+} from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
@@ -26,13 +33,29 @@ const Missions: NextPage = () => {
       <div>
         <h1
           css={css`
+            display: flex;
+            align-items: center;
             padding: 0.25rem 1rem;
             border-bottom: 1px solid ${theme.colors.gray[2]};
             font-size: 1.5rem;
+            gap: 8px;
             line-height: 2rem;
           `}
         >
-          Missions
+          <div>Missions</div>
+          <RingProgress
+            sections={[
+              {
+                color: theme.primaryColor,
+                value:
+                  user && missions
+                    ? (user?.achieves.length / missions?.length) * 100
+                    : 0,
+              },
+            ]}
+            size={32}
+            thickness={4}
+          />
         </h1>
         <div
           css={css`
