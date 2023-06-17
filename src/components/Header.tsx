@@ -10,6 +10,7 @@ import {
 } from '@mantine/core';
 import { MantineLogo } from '@mantine/ds';
 import { useDisclosure } from '@mantine/hooks';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const HEADER_HEIGHT = rem(60);
@@ -103,7 +104,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
-    <a
+    <Link
       key={link.label}
       href={link.link}
       className={cx(classes.link, {
@@ -116,7 +117,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       }}
     >
       {link.label}
-    </a>
+    </Link>
   ));
 
   return (
