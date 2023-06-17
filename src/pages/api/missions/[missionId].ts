@@ -8,7 +8,7 @@ const handler: NextApiHandler = (req, res) => {
       id: missionId,
       name: `Mission ${missionId}`,
       description: `Mission ${missionId} description`,
-      points: 10,
+      achievers: ['cp20'],
     });
   }
 
