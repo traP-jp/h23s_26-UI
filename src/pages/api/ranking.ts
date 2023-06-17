@@ -5,7 +5,18 @@ const handler: NextApiHandler = (req, res) => {
   // const { filter, limit } = req.query;
 
   const ranking: GetRankingResponse = {
-    ranking: ['cp20', 'Kuryu', 'ras'],
+    ranking: [
+      'cp20',
+      'Kuryu',
+      'ras',
+      'mizoreyuki',
+      'alt--er',
+      'kazuki',
+      'kazuki',
+      'kazuki',
+      'kazuki',
+      'kazuki',
+    ],
   };
 
   res.status(200).json(ranking);
