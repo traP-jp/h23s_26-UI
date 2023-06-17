@@ -12,6 +12,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
 import { useState } from 'react';
+import { pagesPath } from '@/lib/$path';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -125,7 +126,7 @@ export function HeaderResponsive() {
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
-        <Link href="/">traP Mission</Link>
+        <Link href={pagesPath.$url()}>traP Mission</Link>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
