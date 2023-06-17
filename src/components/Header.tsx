@@ -104,7 +104,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { classes, cx } = useStyles();
 
   links = [
-    { link: '/landingpage', label: 'LandingPage' },
+    { link: '/', label: 'LandingPage' },
     { link: '/dashboard', label: 'DashBoard' },
     { link: '/missions', label: 'Missions' },
     { link: 'ranking', label: 'Ranking' },
