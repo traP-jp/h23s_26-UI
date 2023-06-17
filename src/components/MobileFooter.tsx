@@ -10,7 +10,7 @@ const useStyles = createStyles((theme) => ({
 
   inner: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: `${theme.spacing.md} ${theme.spacing.md}`,
 
@@ -27,12 +27,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface FooterCenteredProps {
-  links: { link: string; label: string }[];
-}
-
-export function FooterCentered({ links }: FooterCenteredProps) {
+export function Footer() {
   const { classes } = useStyles();
+
+  const links = [
+    { label: 'DashBoard', link: '/dashboard' },
+    { label: 'Missions', link: '/missions' },
+    { label: 'Ranking', link: '/ranking' },
+  ];
 
   const items = links.map((link) => (
     <Anchor<'a'>
