@@ -1,37 +1,34 @@
-// TODO: 後で消す
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-type GetUserResponse = {
+export type GetUserResponse = {
   id: string;
   ranking: number;
   achieves: string[];
 };
 
-type GetUsersResponse = GetUserResponse[];
+export type GetUsersResponse = GetUserResponse[];
 
-type PatchUserMissionRequest = {
+export type PatchUserMissionRequest = {
   clear: boolean;
   clearedAt: Date;
 };
 
-type GetMissionResponse = {
+export type GetMissionResponse = {
   id: string;
   name: string;
   description: string;
   achievers: string[];
 };
 
-type GetMissionsResponse = GetMissionResponse[];
+export type GetMissionsResponse = GetMissionResponse[];
 
-type PostMissionRequest = {
+export type PostMissionRequest = {
   name: string;
   description: string;
 };
 
-type PostMissionResponse = {
+export type PostMissionResponse = {
   id: string;
 };
 
-type GetRankingResponse = {
+export type GetRankingResponse = {
   ranking: string[];
 };
