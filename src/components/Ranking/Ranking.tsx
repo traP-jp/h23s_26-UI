@@ -1,12 +1,13 @@
 import { css } from '@emotion/react';
 import { Center, Loader, useMantineTheme, Text } from '@mantine/core';
 import { IconCrown } from '@tabler/icons-react';
+import type { FC } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetRankingResponse } from '@/schema/schema';
 
-export function Ranking() {
+export const Ranking: FC = () => {
   const theme = useMantineTheme();
   const { data } = useSWR<GetRankingResponse>(
     `${getApiBaseUrl()}/ranking`,
@@ -92,4 +93,4 @@ export function Ranking() {
       )}
     </div>
   );
-}
+};

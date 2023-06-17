@@ -1,7 +1,7 @@
 import { Layout } from '@/components/Layout';
 import { Ranking } from '@/components/Ranking/Ranking';
 
-export default function RankingPage() {
+const RankingPage = () => {
   return (
     <>
       <Layout>
@@ -9,4 +9,6 @@ export default function RankingPage() {
       </Layout>
     </>
   );
-}
+};
+
+export default RankingPage;
