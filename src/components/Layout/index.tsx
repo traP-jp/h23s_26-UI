@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import type { FC, ReactNode } from 'react';
-import { Header } from '@/components/Header';
-import { MobileFooter } from '@/components/MobileFooter';
+
+import { Header } from './Header';
+import { MobileFooter } from './MobileFooter';
 
 type LayoutProps = {
   children: ReactNode;

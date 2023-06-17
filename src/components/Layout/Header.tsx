@@ -10,15 +10,10 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
+import { links } from './links';
 import { pagesPath } from '@/lib/$path';
 
 const HEADER_HEIGHT = rem(60);
-
-const links = [
-  { link: '/dashboard', label: 'DashBoard' },
-  { link: '/missions', label: 'Missions' },
-  { link: 'ranking', label: 'Ranking' },
-];
 
 type HeaderLinkProps = {
   href: string;
@@ -33,21 +28,19 @@ const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
     <Link
       href={href}
       css={css`
-        display: block;
+        display: flex;
+        align-items: center;
         padding: ${rem(8)} ${rem(12)};
         border-radius: ${theme.radius.sm};
-        color: ${theme.colorScheme === 'dark'
-          ? theme.colors.dark[0]
-          : theme.colors.gray[7]};
+        color: ${theme.colors.gray[7]};
         font-size: ${theme.fontSizes.sm};
         font-weight: 500;
+        gap: ${rem(4)};
         line-height: 1;
         text-decoration: none;
 
         &:hover {
-          background-color: ${theme.colorScheme === 'dark'
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0]};
+          background-color: ${theme.colors.gray[1]};
         }
 
         @media screen and (max-width: ${theme.breakpoints.sm}) {
@@ -87,7 +80,8 @@ export const Header: FC = () => {
       href={link.link}
       active={link.link === pathname}
     >
-      {link.label}
+      <link.Icon size="1.125rem" />
+      <span>{link.label}</span>
     </HeaderLink>
   ));
 
@@ -119,9 +113,7 @@ export const Header: FC = () => {
             text-decoration: none;
 
             &:hover {
-              background-color: ${theme.colorScheme === 'dark'
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0]};
+              background-color: ${theme.colors.gray[1]};
             }
           `}
         >
