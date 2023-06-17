@@ -100,8 +100,15 @@ interface HeaderResponsiveProps {
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
-  const [active, setActive] = useState(links[0].link);
+  const [active, setActive] = useState(links[0]?.link);
   const { classes, cx } = useStyles();
+
+  links = [
+    { link: '/landingpage', label: 'LandingPage' },
+    { link: '/dashboard', label: 'DashBoard' },
+    { link: '/missions', label: 'Missions' },
+    { link: 'ranking', label: 'Ranking' },
+  ];
 
   const items = links.map((link) => (
     <Link
