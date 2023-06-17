@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { Anchor, Card, SimpleGrid, Text, useMantineTheme } from '@mantine/core';
+import { Card, Text, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import useSWR from 'swr';
 import { Layout } from '@/components/Layout';
 import { fetcher } from '@/lib/fetcher';
@@ -21,36 +22,46 @@ const Missions: NextPage = () => {
   return (
     <Layout>
       <div>
-        <h1>Misions</h1>
-        <SimpleGrid
-          mt="md"
+        <h1>Missions</h1>
+        <div
           css={css`
+            display: grid;
+            margin-top: ${theme.spacing.md};
+            gap: 8px;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
           `}
         >
           {missions?.map((mission) => (
-            <Card
-              shadow="sm"
-              padding="lg"
+            <Link
+              href={`/missions/${mission.id}`}
               key={mission.id}
               css={css`
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                &:hover {
-                  box-shadow: ${theme.shadows.md};
-                  transform: scale(1.05);
-                }
+                color: inherit;
+                text-decoration: none;
               `}
             >
-              <Anchor href={`/missions/${mission.id}`}>
-                <Text>{mission.name}</Text>
-                <Text>{mission.description}</Text>
-              </Anchor>
-            </Card>
+              <Card
+                shadow="xs"
+                padding="lg"
+                css={css`
+                  transition: all 0.2s;
+
+                  &:hover {
+                    box-shadow: ${theme.shadows.sm};
+                    opacity: 0.8;
+                  }
+                `}
+              >
+                <Text fw="500" className="mission-title">
+                  {mission.name}
+                </Text>
+                <Text color="dimmed" className="mission-description">
+                  {mission.description}
+                </Text>
+              </Card>
+            </Link>
           ))}
-        </SimpleGrid>
+        </div>
       </div>
     </Layout>
   );
