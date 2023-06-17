@@ -94,20 +94,16 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface HeaderResponsiveProps {
-  links: { link: string; label: string }[];
-}
+const links = [
+  { link: '/dashboard', label: 'DashBoard' },
+  { link: '/missions', label: 'Missions' },
+  { link: 'ranking', label: 'Ranking' },
+];
 
-export function HeaderResponsive({ links }: HeaderResponsiveProps) {
+export function HeaderResponsive() {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0]?.link);
   const { classes, cx } = useStyles();
-
-  links = [
-    { link: '/dashboard', label: 'DashBoard' },
-    { link: '/missions', label: 'Missions' },
-    { link: 'ranking', label: 'Ranking' },
-  ];
 
   const items = links.map((link) => (
     <Link
