@@ -45,7 +45,6 @@ const Home: NextPage = () => {
                 margin: 0;
                 color: ${theme.black};
                 font-size: ${rem(62)};
-                font-weight: 900;
                 line-height: 1.1;
 
                 ${theme.fn.smallerThan('sm')} {
@@ -54,16 +53,14 @@ const Home: NextPage = () => {
                 }
               `}
             >
-              A{' '}
               <Text
                 component="span"
                 variant="gradient"
                 gradient={{ from: 'blue', to: 'cyan' }}
                 inherit
               >
-                fully featured
-              </Text>{' '}
-              React components and hooks library
+                traP Mission
+              </Text>
             </h1>
 
             <Text
@@ -77,9 +74,7 @@ const Home: NextPage = () => {
                 }
               `}
             >
-              Build fully functional accessible web applications with ease –
-              Mantine includes more than 100 customizable components and hooks
-              to cover you in any situation
+              数々のミッションをこなし、一流のtraPerになろう！
             </Text>
 
             <Group
@@ -108,7 +103,7 @@ const Home: NextPage = () => {
                   }
                 `}
               >
-                Get started
+                挑戦する
               </Button>
             </Group>
           </Container>
