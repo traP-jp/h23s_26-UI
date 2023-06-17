@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Footer() {
+export const MobileFooter = () => {
   const { classes } = useStyles();
 
   const links = [
@@ -55,4 +55,4 @@ export function Footer() {
       </div>
     </div>
   );
-}
+};

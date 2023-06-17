@@ -1,5 +1,11 @@
 import { css } from '@emotion/react';
-import { Header, Container, Group, rem, useMantineTheme } from '@mantine/core';
+import {
+  Header as MantineHeader,
+  Container,
+  Group,
+  rem,
+  useMantineTheme,
+} from '@mantine/core';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -71,7 +77,7 @@ const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
   );
 };
 
-export const HeaderResponsive: FC = () => {
+export const Header: FC = () => {
   const { pathname } = useRouter();
   const theme = useMantineTheme();
 
@@ -86,12 +92,13 @@ export const HeaderResponsive: FC = () => {
   ));
 
   return (
-    <Header
+    <MantineHeader
       height={HEADER_HEIGHT}
       mb={120}
       css={css`
         position: relative;
         z-index: 1;
+        margin-bottom: 0;
       `}
     >
       <Container
@@ -130,6 +137,6 @@ export const HeaderResponsive: FC = () => {
           <Group spacing={5}>{items}</Group>
         </div>
       </Container>
-    </Header>
+    </MantineHeader>
   );
 };
