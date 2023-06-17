@@ -10,7 +10,7 @@ const useStyles = createStyles((theme) => ({
 
   inner: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: `${theme.spacing.md} ${theme.spacing.md}`,
 
@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function FooterCentered() {
+export function Footer() {
   const { classes } = useStyles();
 
   const links = [

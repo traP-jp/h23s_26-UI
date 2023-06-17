@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import { Description } from '@/components/Description';
-import { FooterCentered } from '@/components/MobileFooter';
+import { Footer } from '@/components/MobileFooter';
 
 const Home: NextPage = () => {
   return (
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
           Next.jsをMantine
           UIと一緒に色々セットアップしてあるオレオレテンプレートリポジトリです。ご利用は計画的に。
         </p>
-        <FooterCentered />
+        <Footer />
       </div>
     </>
   );
