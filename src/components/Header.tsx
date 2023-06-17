@@ -104,7 +104,6 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { classes, cx } = useStyles();
 
   links = [
-    { link: '/', label: 'LandingPage' },
     { link: '/dashboard', label: 'DashBoard' },
     { link: '/missions', label: 'Missions' },
     { link: 'ranking', label: 'Ranking' },
@@ -130,7 +129,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
-        <div>traP Mission</div>
+        <Link href="/">traP Mission</Link>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
