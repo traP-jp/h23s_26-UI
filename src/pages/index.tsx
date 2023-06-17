@@ -6,7 +6,7 @@ import { HeaderResponsive } from '@/components/Header';
 const Home: NextPage = () => {
   return (
     <>
-      <HeaderResponsive links={[]} />
+      <HeaderResponsive />
       <Description
         title="Next.js with Mantine UI Template"
         description="Next.jsをMantine UIと一緒に色々セットアップしてあるオレオレテンプレートリポジトリです。ご利用は計画的に。"
