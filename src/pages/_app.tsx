@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             lg: '1200px',
             xl: '1400px',
           },
+          primaryColor: 'cyan',
         }}
       >
         <Component {...pageProps} />
