@@ -7,7 +7,7 @@
 - [開発する上で必要なことが全部書いてあるやつ](#開発する上で必要なことが全部書いてあるやつ)
   - [目次](#目次)
   - [開発の進め方](#開発の進め方)
-  - [サーバー API の使い方について](#サーバーapiの使い方について)
+  - [サーバー API の使い方について](#サーバー-api-の使い方について)
   - [エディタの設定](#エディタの設定)
   - [import alias について](#import-alias-について)
   - [ディレクトリ構成](#ディレクトリ構成)
@@ -33,6 +33,7 @@
     - [Jotai](#jotai)
     - [Tabler Icons](#tabler-icons)
       - [アイコンの使い方](#アイコンの使い方)
+    - [SWR](#swr)
 
 ## 開発の進め方
 
@@ -222,4 +223,22 @@ const SampleComponent: FC = () => {
     </div>
   );
 };
+```
+
+### SWR
+
+データを取得するためのライブラリです。
+
+以下は公式のサンプルから拝借したものです。
+
+```tsx
+import useSWR from 'swr';
+
+function Profile() {
+  const { data, error, isLoading } = useSWR('/api/user', fetcher);
+
+  if (error) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
+  return <div>hello {data.name}!</div>;
+}
 ```

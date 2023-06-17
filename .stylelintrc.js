@@ -15,6 +15,8 @@ module.exports = {
     'alpha-value-notation': 'number',
     'function-no-unknown': null,
     'function-name-case': null,
+    'value-keyword-case': null,
+    'function-whitespace-after': null,
   },
   overrides: [
     {
