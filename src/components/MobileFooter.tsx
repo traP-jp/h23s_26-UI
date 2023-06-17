@@ -42,7 +42,6 @@ export function Footer() {
       key={link.label}
       href={link.link}
       sx={{ lineHeight: 1 }}
-      onClick={(event) => event.preventDefault()}
       size="sm"
     >
       {link.label}
