@@ -8,31 +8,36 @@ export const MobileFooter = () => {
   const { pathname } = useRouter();
   const theme = useMantineTheme();
 
-  const items = links.map((link) => (
-    <Anchor
-      component={Link}
-      color={link.link === pathname ? 'blue' : theme.colors.gray[6]}
-      key={link.label}
-      href={link.link}
-      size="sm"
-      css={css`
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        gap: 4px;
-        line-height: 1;
+  const items = links.map((link) => {
+    const active = link.link === pathname;
 
-        &:not(:last-of-type) {
-          border-right: ${rem(1)} solid ${theme.colors.gray[3]};
-        }
-      `}
-    >
-      <link.Icon size="1.125rem" />
-      <span>{link.label}</span>
-    </Anchor>
-  ));
+    return (
+      <Anchor
+        component={Link}
+        color={active ? theme.primaryColor : theme.colors.gray[6]}
+        key={link.label}
+        href={link.link}
+        size="sm"
+        css={css`
+          display: flex;
+          flex: 1;
+          align-items: center;
+          justify-content: center;
+          padding: 0.5rem 0;
+          font-weight: ${active ? 700 : 600};
+          gap: 4px;
+          line-height: 1;
+
+          &:not(:last-of-type) {
+            border-right: ${rem(1)} solid ${theme.colors.gray[3]};
+          }
+        `}
+      >
+        <link.Icon size="1.125rem" />
+        <span>{link.label}</span>
+      </Anchor>
+    );
+  });
 
   return (
     <div
@@ -40,14 +45,7 @@ export const MobileFooter = () => {
         border-top: ${rem(1)} solid ${theme.colors.gray[3]};
       `}
     >
-      <Flex
-        justify="center"
-        css={css`
-          padding: 0.5rem 0;
-        `}
-      >
-        {items}
-      </Flex>
+      <Flex justify="center">{items}</Flex>
     </div>
   );
 };

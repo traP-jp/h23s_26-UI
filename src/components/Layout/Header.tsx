@@ -5,6 +5,7 @@ import {
   Group,
   rem,
   useMantineTheme,
+  MediaQuery,
 } from '@mantine/core';
 
 import Link from 'next/link';
@@ -12,8 +13,6 @@ import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 import { links } from './links';
 import { pagesPath } from '@/lib/$path';
-
-const HEADER_HEIGHT = rem(60);
 
 type HeaderLinkProps = {
   href: string;
@@ -41,11 +40,6 @@ const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
 
         &:hover {
           background-color: ${theme.colors.gray[1]};
-        }
-
-        @media screen and (max-width: ${theme.breakpoints.sm}) {
-          padding: ${theme.spacing.md};
-          border-radius: 0;
         }
 
         ${active &&
@@ -87,7 +81,7 @@ export const Header: FC = () => {
 
   return (
     <MantineHeader
-      height={HEADER_HEIGHT}
+      height={{ base: 40, sm: 60 }}
       css={css`
         position: relative;
         z-index: 1;
@@ -117,15 +111,9 @@ export const Header: FC = () => {
         >
           ★ traP Mission
         </Link>
-        <div
-          css={css`
-            @media screen and (max-width: 540px) {
-              display: none;
-            }
-          `}
-        >
+        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
           <Group spacing={5}>{items}</Group>
-        </div>
+        </MediaQuery>
       </Container>
     </MantineHeader>
   );

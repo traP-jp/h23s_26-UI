@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useMantineTheme } from '@mantine/core';
 import type { FC, ReactNode } from 'react';
 
 import { Header } from './Header';
@@ -9,12 +10,14 @@ type LayoutProps = {
 };
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
+  const theme = useMantineTheme();
+
   return (
     <>
       <Header />
       <main
         css={css`
-          max-width: 960px;
+          max-width: ${theme.breakpoints.md};
           flex: 1;
           padding: 1rem;
           margin: 0 auto;
@@ -29,7 +32,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
           bottom: 0;
           left: 0;
 
-          @media screen and (min-width: 541px) {
+          ${theme.fn.largerThan('sm')} {
             display: none;
           }
         `}
