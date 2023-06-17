@@ -88,11 +88,9 @@ export const Header: FC = () => {
   return (
     <MantineHeader
       height={HEADER_HEIGHT}
-      mb={120}
       css={css`
         position: relative;
         z-index: 1;
-        margin-bottom: 0;
       `}
     >
       <Container
