@@ -3,6 +3,8 @@ name: Testing build Next.js App
 on:
   pull_request:
   push:
+    branches:
+      - main
 
 jobs:
   build:
