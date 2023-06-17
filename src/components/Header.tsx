@@ -1,12 +1,5 @@
 import { css } from '@emotion/react';
-import {
-  Header,
-  Container,
-  Group,
-  rem,
-  MediaQuery,
-  useMantineTheme,
-} from '@mantine/core';
+import { Header, Container, Group, rem, useMantineTheme } from '@mantine/core';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -51,7 +44,7 @@ const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
             : theme.colors.gray[0]};
         }
 
-        @media screen and (max-width: ${theme.breakpoints.sm}px) {
+        @media screen and (max-width: ${theme.breakpoints.sm}) {
           padding: ${theme.spacing.md};
           border-radius: 0;
         }
@@ -127,9 +120,15 @@ export function HeaderResponsive() {
         >
           ★ traP Mission
         </Link>
-        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+        <div
+          css={css`
+            @media screen and (max-width: 540px) {
+              display: none;
+            }
+          `}
+        >
           <Group spacing={5}>{items}</Group>
-        </MediaQuery>
+        </div>
       </Container>
     </Header>
   );
