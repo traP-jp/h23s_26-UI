@@ -1,18 +1,18 @@
 import { css } from '@emotion/react';
-import { Header, Container, Group, rem, useMantineTheme } from '@mantine/core';
+import {
+  Header as MantineHeader,
+  Container,
+  Group,
+  rem,
+  useMantineTheme,
+  MediaQuery,
+} from '@mantine/core';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
+import { links } from './links';
 import { pagesPath } from '@/lib/$path';
-
-const HEADER_HEIGHT = rem(60);
-
-const links = [
-  { link: '/dashboard', label: 'DashBoard' },
-  { link: '/missions', label: 'Missions' },
-  { link: 'ranking', label: 'Ranking' },
-];
 
 type HeaderLinkProps = {
   href: string;
@@ -27,26 +27,19 @@ const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
     <Link
       href={href}
       css={css`
-        display: block;
+        display: flex;
+        align-items: center;
         padding: ${rem(8)} ${rem(12)};
         border-radius: ${theme.radius.sm};
-        color: ${theme.colorScheme === 'dark'
-          ? theme.colors.dark[0]
-          : theme.colors.gray[7]};
+        color: ${theme.colors.gray[7]};
         font-size: ${theme.fontSizes.sm};
         font-weight: 500;
+        gap: ${rem(4)};
         line-height: 1;
         text-decoration: none;
 
         &:hover {
-          background-color: ${theme.colorScheme === 'dark'
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0]};
-        }
-
-        @media screen and (max-width: ${theme.breakpoints.sm}) {
-          padding: ${theme.spacing.md};
-          border-radius: 0;
+          background-color: ${theme.colors.gray[1]};
         }
 
         ${active &&
@@ -71,7 +64,7 @@ const HeaderLink: FC<HeaderLinkProps> = ({ href, children, active }) => {
   );
 };
 
-export const HeaderResponsive: FC = () => {
+export const Header: FC = () => {
   const { pathname } = useRouter();
   const theme = useMantineTheme();
 
@@ -81,14 +74,14 @@ export const HeaderResponsive: FC = () => {
       href={link.link}
       active={link.link === pathname}
     >
-      {link.label}
+      <link.Icon size="1.125rem" />
+      <span>{link.label}</span>
     </HeaderLink>
   ));
 
   return (
-    <Header
-      height={HEADER_HEIGHT}
-      mb={120}
+    <MantineHeader
+      height={{ base: 40, sm: 60 }}
       css={css`
         position: relative;
         z-index: 1;
@@ -112,24 +105,16 @@ export const HeaderResponsive: FC = () => {
             text-decoration: none;
 
             &:hover {
-              background-color: ${theme.colorScheme === 'dark'
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0]};
+              background-color: ${theme.colors.gray[1]};
             }
           `}
         >
           ★ traP Mission
         </Link>
-        <div
-          css={css`
-            @media screen and (max-width: 540px) {
-              display: none;
-            }
-          `}
-        >
+        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
           <Group spacing={5}>{items}</Group>
-        </div>
+        </MediaQuery>
       </Container>
-    </Header>
+    </MantineHeader>
   );
 };

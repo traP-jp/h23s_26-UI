@@ -15,11 +15,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           /** Put your mantine theme override here */
           colorScheme: 'light',
           breakpoints: {
-            xs: '360px',
-            sm: '800px',
-            md: '1000px',
-            lg: '1200px',
-            xl: '1400px',
+            xs: '28em',
+            sm: '36em',
+            md: '64em',
+            lg: '74em',
+            xl: '90em',
           },
           primaryColor: 'cyan',
         }}
