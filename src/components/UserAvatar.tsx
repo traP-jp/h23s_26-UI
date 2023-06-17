@@ -1,10 +1,10 @@
 import { Avatar } from '@mantine/core';
 import { useUserInfo } from '@/hooks/useUserInfo';
 
-export const Icon = () => {
-  const userInfo = useUserInfo();
-  const iconurl = `https://q.trap.jp/api/v3/public/icon/${encodeURIComponent(
-    userInfo.userId,
+export const UserAvatar = () => {
+  const { userId } = useUserInfo();
+  const iconUrl = `https://q.trap.jp/api/v3/public/icon/${encodeURIComponent(
+    userId,
   )}`;
-  return <Avatar src={iconurl} radius="xl" />;
+  return <Avatar src={iconUrl} />;
 };
