@@ -1,6 +1,7 @@
 import 'ress';
 import '@/styles/global.css';
 import { MantineProvider } from '@mantine/core';
+import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import { GoogleTagManagerBody } from '@/components/GoogleTagManager';
 
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           primaryColor: 'cyan',
         }}
       >
-        <Component {...pageProps} />
+        <AnimatePresence mode="wait" initial>
+          <Component {...pageProps} />
+        </AnimatePresence>
       </MantineProvider>
     </>
   );
