@@ -5,12 +5,12 @@ import type { FC } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetRankingResponse } from '@/schema/schema';
+import type { GetUsersResponse } from '@/schema/schema';
 
 export const Ranking: FC = () => {
   const theme = useMantineTheme();
-  const { data } = useSWR<GetRankingResponse>(
-    `${getApiBaseUrl()}/ranking`,
+  const { data } = useSWR<GetUsersResponse>(
+    `${getApiBaseUrl()}/users`,
     fetcher,
   );
 
@@ -52,9 +52,9 @@ export const Ranking: FC = () => {
             gap: 16px;
           `}
         >
-          {data.ranking.map((rank, index) => (
+          {data.map((user, index) => (
             <div
-              key={rank}
+              key={user.id}
               css={css`
                 display: flex;
                 width: min(400px, calc(100vw - 32px));
@@ -82,7 +82,8 @@ export const Ranking: FC = () => {
               >
                 {getRankIndex(index + 1)}
               </div>
-              <Text size="lg">{rank}</Text>
+              <Text size="lg">{user.ranking}</Text>
+              <Text size="lg">{user.id}</Text>
             </div>
           ))}
         </div>
