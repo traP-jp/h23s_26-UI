@@ -9,9 +9,10 @@ import {
 } from '@mantine/core';
 import type { NextPage } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Description } from '@/components/Description';
 import { Layout } from '@/components/Layout';
-import { staticPath } from '@/lib/$path';
+import { pagesPath, staticPath } from '@/lib/$path';
 
 const Home: NextPage = () => {
   const theme = useMantineTheme();
@@ -91,6 +92,8 @@ const Home: NextPage = () => {
               <Button
                 size="xl"
                 variant="gradient"
+                component={Link}
+                href={pagesPath.missions.$url()}
                 gradient={{ from: 'blue', to: 'cyan' }}
                 css={css`
                   height: ${rem(54)};
