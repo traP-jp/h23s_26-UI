@@ -6,7 +6,13 @@ WORKDIR /app
 
 ARG NEXT_PUBLIC_API_BASE_URL
 
-RUN npm i -g pnpm && pnpm i && pnpm build
+RUN npm i -g pnpm
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile
+
+COPY . .
+RUN pnpm build
 
 EXPOSE 3000
 
