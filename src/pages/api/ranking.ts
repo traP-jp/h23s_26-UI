@@ -1,7 +1,7 @@
 import type { NextApiHandler } from 'next';
 import type { GetRankingResponse } from '@/schema/schema';
 
-const handler: NextApiHandler = (req, res) => {
+const handler: NextApiHandler<GetRankingResponse> = (req, res) => {
   // const { filter, limit } = req.query;
 
   const ranking: GetRankingResponse = {
