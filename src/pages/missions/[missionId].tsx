@@ -39,6 +39,7 @@ const Mission: NextPage = () => {
 
   const toggleClearHandler = async () => {
     if (data === undefined) return;
+    if (userId === undefined) return;
 
     const clear = userId ? !data.achievers.includes(userId) : false;
 
@@ -49,7 +50,7 @@ const Mission: NextPage = () => {
 
     try {
       const res = await fetch(
-        `${getApiBaseUrl()}/users/me/missions/${missionId}`,
+        `${getApiBaseUrl()}/users/${userId}/missions/${missionId}`,
         {
           method: 'PATCH',
           headers: {
