@@ -6,6 +6,7 @@ import {
   rem,
   useMantineTheme,
   MediaQuery,
+  Flex,
 } from '@mantine/core';
 
 import Image from 'next/image';
@@ -14,6 +15,7 @@ import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 import { links } from './links';
 import { pagesPath, staticPath } from '@/lib/$path';
+import { AuthButton } from '@/components/AuthButton';
 
 type HeaderLinkProps = {
   href: string;
@@ -117,9 +119,12 @@ export const Header: FC = () => {
             height={28}
           />
         </Link>
-        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-          <Group spacing={5}>{items}</Group>
-        </MediaQuery>
+        <Flex gap={8}>
+          <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+            <Group spacing={5}>{items}</Group>
+          </MediaQuery>
+          <AuthButton />
+        </Flex>
       </Container>
     </MantineHeader>
   );

@@ -1,4 +1,7 @@
 export const pagesPath = {
+  "dashboard": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/dashboard' as const, hash: url?.hash })
+  },
   "missions": {
     $url: (url?: { hash?: string }) => ({ pathname: '/missions' as const, hash: url?.hash }),
     _missionId: (missionId: string | number) => ({
@@ -20,6 +23,7 @@ export const staticPath = {
   icon_192_png: '/icon-192.png',
   icon_512_png: '/icon-512.png',
   icon_svg: '/icon.svg',
+  landing_page_image_png: '/landing-page-image.png',
   manifest_webmanifest: '/manifest.webmanifest',
   ogp_png: '/ogp.png',
   traP_Mission_Logo_png: '/traP_Mission_Logo.png'

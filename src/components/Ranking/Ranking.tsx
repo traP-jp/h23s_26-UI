@@ -3,6 +3,7 @@ import { Center, Loader, useMantineTheme, Text } from '@mantine/core';
 import { IconCrown } from '@tabler/icons-react';
 import type { FC } from 'react';
 import useSWR from 'swr';
+import { UserAvatar } from '@/components/UserAvatar';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetUsersResponse } from '@/schema/schema';
@@ -40,7 +41,7 @@ export const Ranking: FC = () => {
           line-height: 2rem;
         `}
       >
-        ランキング
+        Ranking
       </h1>
       {data ? (
         <div
@@ -57,7 +58,7 @@ export const Ranking: FC = () => {
               key={user.id}
               css={css`
                 display: flex;
-                width: min(400px, calc(100vw - 32px));
+                width: 100%;
                 height: 2.5rem;
                 align-items: center;
                 border-radius: ${theme.radius.sm};
@@ -82,7 +83,7 @@ export const Ranking: FC = () => {
               >
                 {getRankIndex(index + 1)}
               </div>
-              <Text size="lg">{user.ranking}</Text>
+              <UserAvatar userId={user.id} iconSize="sm" />
               <Text size="lg">{user.id}</Text>
             </div>
           ))}
