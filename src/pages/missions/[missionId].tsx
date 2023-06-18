@@ -32,14 +32,14 @@ const Mission: NextPage = () => {
     `${getApiBaseUrl()}/missions/${missionId}`,
     fetcher,
   );
-  const { userId } = useUserInfo();
+  const { userId } = useUserInfo() ?? { userId: undefined };
   const { notify } = useNotification();
   const { animate, Canvas } = useClearAnimation();
 
   const toggleClearHandler = async () => {
     if (data === undefined) return;
 
-    const clear = !data.achievers.includes(userId);
+    const clear = userId ? !data.achievers.includes(userId) : false;
 
     const body: PatchUserMissionRequest = {
       clear,
@@ -119,7 +119,7 @@ const Mission: NextPage = () => {
         <Center>
           <div>
             {data ? (
-              data.achievers.includes(userId) ? (
+              (userId ? !data.achievers.includes(userId) : false) ? (
                 <Stack>
                   <Button variant="filled" size="lg" disabled>
                     クリア済み

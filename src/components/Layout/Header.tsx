@@ -6,12 +6,14 @@ import {
   rem,
   useMantineTheme,
   MediaQuery,
+  Flex,
 } from '@mantine/core';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 import { links } from './links';
+import { AuthButton } from '@/components/AuthButton';
 import { pagesPath } from '@/lib/$path';
 
 type HeaderLinkProps = {
@@ -111,9 +113,12 @@ export const Header: FC = () => {
         >
           ★ traP Mission
         </Link>
-        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-          <Group spacing={5}>{items}</Group>
-        </MediaQuery>
+        <Flex gap={8}>
+          <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+            <Group spacing={5}>{items}</Group>
+          </MediaQuery>
+          <AuthButton />
+        </Flex>
       </Container>
     </MantineHeader>
   );
