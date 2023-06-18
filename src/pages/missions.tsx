@@ -20,7 +20,12 @@ const Missions: NextPage = () => {
     <Layout>
       <div>
         <h1>Misions</h1>
-        <SimpleGrid cols={4} mt="md">
+        <SimpleGrid
+          mt="md"
+          css={css`
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          `}
+        >
           {missions?.map((mission) => (
             <UnstyledButton
               key={mission.id}
