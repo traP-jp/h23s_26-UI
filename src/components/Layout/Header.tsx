@@ -14,8 +14,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 import { links } from './links';
-import { pagesPath, staticPath } from '@/lib/$path';
 import { AuthButton } from '@/components/AuthButton';
+import { pagesPath, staticPath } from '@/lib/$path';
 
 type HeaderLinkProps = {
   href: string;
