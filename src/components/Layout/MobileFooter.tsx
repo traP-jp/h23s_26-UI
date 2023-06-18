@@ -43,6 +43,7 @@ export const MobileFooter = () => {
     <div
       css={css`
         border-top: ${rem(1)} solid ${theme.colors.gray[3]};
+        background-color: ${theme.white};
       `}
     >
       <Flex justify="center">{items}</Flex>
