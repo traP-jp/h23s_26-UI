@@ -1,6 +1,9 @@
 export const pagesPath = {
   "missions": {
-    $url: (url?: { hash?: string }) => ({ pathname: '/missions' as const, hash: url?.hash })
+    $url: (url?: { hash?: string }) => ({ pathname: '/missions' as const, hash: url?.hash }),
+    _missionId: (missionId: string | number) => ({
+      $url: (url?: { hash?: string }) => ({ pathname: '/missions/[missionId]' as const, query: { missionId }, hash: url?.hash })
+    })
   },
   $url: (url?: { hash?: string }) => ({ pathname: '/' as const, hash: url?.hash })
 }
