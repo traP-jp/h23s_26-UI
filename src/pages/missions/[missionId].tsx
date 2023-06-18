@@ -125,7 +125,7 @@ const Mission: NextPage = () => {
           <Center>
             <div>
               {data ? (
-                (userId ? !data.achievers.includes(userId) : false) ? (
+                userId !== undefined && data.achievers.includes(userId) ? (
                   <Stack>
                     <Button variant="filled" size="lg" disabled>
                       クリア済み
