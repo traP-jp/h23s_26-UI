@@ -61,8 +61,8 @@ const Missions: NextPage = () => {
           css={css`
             display: grid;
             margin-top: ${theme.spacing.md};
-            gap: 8px;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           `}
         >
           {missions
@@ -99,16 +99,21 @@ const Missions: NextPage = () => {
                         <IconCheck size="5rem" />
                       </Overlay>
                     )}
-                    <Text fw="500" className="mission-title">
+                    <Text fw="500" lineClamp={1} className="mission-title">
                       {mission.name}
                     </Text>
-                    <Text color="dimmed" className="mission-description">
+                    <Text
+                      color="dimmed"
+                      lineClamp={2}
+                      h="3rem"
+                      className="mission-description"
+                    >
                       {mission.description}
                     </Text>
                   </Card>
                 </Link>
               ))
-            : new Array(4).fill(0).map((_, i) => <Skeleton h={90} key={i} />)}
+            : new Array(3).fill(0).map((_, i) => <Skeleton h={90} key={i} />)}
         </div>
       </div>
     </Layout>

@@ -5,8 +5,9 @@ const handler: NextApiHandler<GetMissionsResponse> = (req, res) => {
   res.status(200).json([
     {
       id: 'mission-1',
-      name: 'Mission 1',
-      description: 'Mission 1 description',
+      name: 'Mission 1 - long - long - long - long - long - long',
+      description:
+        'Mission 1 description Mission 1 description Mission 1 description Mission 1 description Mission 1 description Mission 1 description',
       achievers: ['cp20'],
     },
     {
