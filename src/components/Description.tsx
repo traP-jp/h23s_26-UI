@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import type { FC } from 'react';
 
-const appUrl = '';
+const appUrl = process.env.NEXT_PUBLIC_ORIGIN ?? '';
 
 type DescriptionProps = {
   title: string;
