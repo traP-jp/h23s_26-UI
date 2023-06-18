@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Anchor, Card, SimpleGrid, Text, UnstyledButton } from '@mantine/core';
+import { Anchor, Card, SimpleGrid, Text, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
 import useSWR from 'swr';
 import { Layout } from '@/components/Layout';
@@ -8,6 +8,8 @@ import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetMissionsResponse } from '@/schema/schema';
 
 const Missions: NextPage = () => {
+  const theme = useMantineTheme();
+
   const {
     data: missions,
     error,
@@ -27,21 +29,26 @@ const Missions: NextPage = () => {
           `}
         >
           {missions?.map((mission) => (
-            <UnstyledButton
+            <Card
+              shadow="sm"
+              padding="lg"
               key={mission.id}
               css={css`
                 display: flex;
                 align-items: center;
                 justify-content: center;
+
+                &:hover {
+                  box-shadow: ${theme.shadows.md};
+                  transform: scale(1.05);
+                }
               `}
             >
-              <Card shadow="sm" padding="lg">
-                <Anchor href={`/missions/${mission.id}`}>
-                  <Text>{mission.name}</Text>
-                  <Text>{mission.description}</Text>
-                </Anchor>
-              </Card>
-            </UnstyledButton>
+              <Anchor href={`/missions/${mission.id}`}>
+                <Text>{mission.name}</Text>
+                <Text>{mission.description}</Text>
+              </Anchor>
+            </Card>
           ))}
         </SimpleGrid>
       </div>
