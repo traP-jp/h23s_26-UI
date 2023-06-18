@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { Center, RingProgress, Text, useMantineTheme } from '@mantine/core';
 import type { FC } from 'react';
 
@@ -18,7 +19,11 @@ export const RingGraph: FC<RingGraphProps> = ({ myAchieves, allMissions }) => {
       thickness={30}
       sections={[{ value: ratio, color: 'cyan' }]}
       label={
-        <Center>
+        <Center
+          css={css`
+            flex-direction: column;
+          `}
+        >
           <Text
             color={theme.primaryColor}
             weight={900}
@@ -26,6 +31,9 @@ export const RingGraph: FC<RingGraphProps> = ({ myAchieves, allMissions }) => {
             size="xl"
           >
             {ratio} %
+          </Text>
+          <Text align="center" size="md">
+            ({myAchieves} / {allMissions})
           </Text>
         </Center>
       }

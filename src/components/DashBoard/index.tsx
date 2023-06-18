@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Center } from '@mantine/core';
+import { Center, useMantineTheme } from '@mantine/core';
 import type { FC } from 'react';
 import { MyAchieves } from '@/components/DashBoard/MyAchieves';
 import { Profile } from '@/components/DashBoard/Profile';
@@ -10,6 +10,7 @@ import { useMyAchievesCount } from '@/components/DashBoard/useMyAchievesCount';
 import { Layout } from '@/components/Layout';
 
 export const DashBoard: FC = () => {
+  const theme = useMantineTheme();
   const myAchieveNumber = useMyAchievesCount();
   const allMissionNumber = useAllMissionsCount();
 
@@ -17,29 +18,43 @@ export const DashBoard: FC = () => {
     <>
       <Layout>
         <div>
-          <Center maw={100} h={200} mx="auto">
+          <Center h={200} mx="auto">
             <Profile />
           </Center>
         </div>
         <div
           css={css`
             display: flex;
-            flex: 100px;
-            flex-wrap: wrap;
-            justify-content: space-around;
             place-content: center;
+
+            ${theme.fn.smallerThan('sm')} {
+              flex-direction: column;
+            }
           `}
         >
-          <div>
-            <Center>
-              <h2>Your Shinchoku</h2>
-            </Center>
+          <div
+            css={css`
+              display: flex;
+              flex: 1;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            `}
+          >
+            <h2>Your Shinchoku</h2>
             <RingGraph
               myAchieves={myAchieveNumber ?? 0}
               allMissions={allMissionNumber ?? 1}
             />
           </div>
-          <div>
+          <div
+            css={css`
+              display: flex;
+              flex: 1;
+              flex-direction: column;
+              align-items: center;
+            `}
+          >
             <Ranking />
           </div>
         </div>
