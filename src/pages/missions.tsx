@@ -19,9 +19,7 @@ const Missions: NextPage = () => {
   return (
     <Layout>
       <div>
-        <Text size="xl" weight={700}>
-          Missions
-        </Text>
+        <h1>Misions</h1>
         <SimpleGrid cols={4} mt="md">
           {missions?.map((mission) => (
             <UnstyledButton
