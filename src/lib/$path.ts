@@ -1,4 +1,7 @@
 export const pagesPath = {
+  "dashboard": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/dashboard' as const, hash: url?.hash })
+  },
   "missions": {
     $url: (url?: { hash?: string }) => ({ pathname: '/missions' as const, hash: url?.hash }),
     _missionId: (missionId: string | number) => ({
