@@ -4,25 +4,31 @@ import { HeaderResponsive } from '@/components/Header';
 import { Footer } from '@/components/MobileFooter';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetRankingResponse } from '@/schema/schema';
+import type * as schema from '@/schema/schema';
 
 function Ranking() {
-  const { data } = useSWR<GetRankingResponse[]>(
+  const { data } = useSWR<schema.GetRankingResponse>(
     `${getApiBaseUrl()}/ranking`,
     fetcher,
   );
-  return (
-    <div>
-      <div>ランキング</div>
+  if (data === undefined) {
+    return <div>loading...</div>;
+  } else {
+    return (
       <div>
-        {data.map((rank) => (
-          <div key={rank.data}>
-            <div>{rank.ranking}</div>
-          </div>
-        ))}
+        <div>ランキング</div>
+        <div>
+          {data.ranking.map((rank, index) => (
+            <div key={rank}>
+              <div>
+                {index + 1} {rank}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default function RankingPage() {
