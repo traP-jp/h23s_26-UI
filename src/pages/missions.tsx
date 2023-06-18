@@ -1,26 +1,20 @@
 import { css } from '@emotion/react';
 import { Anchor, Card, SimpleGrid, Text, UnstyledButton } from '@mantine/core';
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import useSWR from 'swr';
 import { Layout } from '@/components/Layout';
+import { fetcher } from '@/lib/fetcher';
+import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetMissionsResponse } from '@/schema/schema';
 
 const Missions: NextPage = () => {
-  // TODO: APIからmissionsを設定する
-  const [missions, _] = useState<GetMissionsResponse>([
-    {
-      id: 'mission-1',
-      name: 'Mission 1',
-      description: 'Mission 1 description',
-      achievers: ['user1', 'user2'],
-    },
-    {
-      id: 'mission-2',
-      name: 'Mission 2',
-      description: 'Mission 2 description',
-      achievers: [],
-    },
-  ]);
+  const {
+    data: missions,
+    error,
+    isLoading,
+  } = useSWR<GetMissionsResponse>(`${getApiBaseUrl()}/missions`, fetcher);
+  if (error) return <div>failed to load: {error.message}</div>;
+  if (isLoading) return <div>loading...</div>;
 
   return (
     <Layout>
@@ -29,7 +23,7 @@ const Missions: NextPage = () => {
           Missions
         </Text>
         <SimpleGrid cols={4} mt="md">
-          {missions.map((mission) => (
+          {missions?.map((mission) => (
             <UnstyledButton
               key={mission.id}
               css={css`
