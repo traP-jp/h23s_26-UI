@@ -1,4 +1,9 @@
 export const pagesPath = {
+  "missions": {
+    _missionId: (missionId: string | number) => ({
+      $url: (url?: { hash?: string }) => ({ pathname: '/missions/[missionId]' as const, query: { missionId }, hash: url?.hash })
+    })
+  },
   "ranking": {
     $url: (url?: { hash?: string }) => ({ pathname: '/ranking' as const, hash: url?.hash })
   },
