@@ -13,6 +13,7 @@ import {
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import { Description } from '@/components/Description';
 import { Layout } from '@/components/Layout';
 import { useNotification } from '@/components/Notification/useNotification';
 import { UserAvatar } from '@/components/UserAvatar';
@@ -77,112 +78,122 @@ const Mission: NextPage = () => {
   };
 
   return (
-    <Layout>
-      <Canvas />
-      <div>
-        <h1
-          css={css`
-            padding: 0.25rem 1rem;
-            border-bottom: 1px solid ${theme.colors.gray[2]};
-            font-size: 1.5rem;
-            line-height: 2rem;
-          `}
-        >
-          {data ? (
-            data.name
-          ) : (
-            <Skeleton width="70%" height="2rem" radius="xl" />
-          )}
-        </h1>
-
-        <div
-          css={css`
-            padding: 1rem;
-          `}
-        >
-          {data ? (
-            <Text
-              color="dimmed"
-              css={css`
-                line-height: 1.15rem;
-              `}
-            >
-              {data.description}
-            </Text>
-          ) : (
-            <Skeleton width="100%" height="1.15rem" radius="xl" />
-          )}
-        </div>
-
-        <Space h="xl" />
-
-        <Center>
-          <div>
+    <>
+      <Description
+        title={`Mission ${missionId} | traP Mission`}
+        description="数々のミッションをこなし、一流のtraPerになろう！"
+      />
+      <Layout>
+        <Canvas />
+        <div>
+          <h1
+            css={css`
+              padding: 0.25rem 1rem;
+              border-bottom: 1px solid ${theme.colors.gray[2]};
+              font-size: 1.5rem;
+              line-height: 2rem;
+            `}
+          >
             {data ? (
-              (userId ? !data.achievers.includes(userId) : false) ? (
-                <Stack>
-                  <Button variant="filled" size="lg" disabled>
-                    クリア済み
-                  </Button>
-                  <Button
-                    variant="white"
-                    size="xs"
-                    onClick={toggleClearHandler}
-                  >
-                    キャンセルする
-                  </Button>
-                </Stack>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={toggleClearHandler}
-                >
-                  クリアする
-                </Button>
-              )
+              data.name
             ) : (
+              <Skeleton width="70%" height="2rem" radius="xl" />
+            )}
+          </h1>
+
+          <div
+            css={css`
+              padding: 1rem;
+            `}
+          >
+            {data ? (
               <Text
                 color="dimmed"
                 css={css`
-                  display: flex;
-                  align-items: center;
-                  gap: 4px;
+                  line-height: 1.15rem;
                 `}
               >
-                <Loader variant="oval" size="sm" />
-                取得中
+                {data.description}
               </Text>
+            ) : (
+              <Skeleton width="100%" height="1.15rem" radius="xl" />
             )}
           </div>
-        </Center>
 
-        <Space h="xl" />
+          <Space h="xl" />
 
-        <div>
-          <h2
-            css={css`
-              padding: 0.25rem 1rem;
-              color: ${theme.colors.dark[6]};
-              font-size: 1.25rem;
-            `}
-          >
-            達成した人
-          </h2>
-          <Flex p="1rem" gap="md">
-            {data
-              ? data.achievers.map((achiever) => (
-                  <UserAvatar userId={achiever} key={achiever} iconSize="lg" />
-                ))
-              : new Array(5)
-                  .fill(null)
-                  .map((_, i) => (
-                    <Skeleton key={i} width="56px" height="56px" />
-                  ))}
-          </Flex>
+          <Center>
+            <div>
+              {data ? (
+                (userId ? !data.achievers.includes(userId) : false) ? (
+                  <Stack>
+                    <Button variant="filled" size="lg" disabled>
+                      クリア済み
+                    </Button>
+                    <Button
+                      variant="white"
+                      size="xs"
+                      onClick={toggleClearHandler}
+                    >
+                      キャンセルする
+                    </Button>
+                  </Stack>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={toggleClearHandler}
+                  >
+                    クリアする
+                  </Button>
+                )
+              ) : (
+                <Text
+                  color="dimmed"
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  `}
+                >
+                  <Loader variant="oval" size="sm" />
+                  取得中
+                </Text>
+              )}
+            </div>
+          </Center>
+
+          <Space h="xl" />
+
+          <div>
+            <h2
+              css={css`
+                padding: 0.25rem 1rem;
+                color: ${theme.colors.dark[6]};
+                font-size: 1.25rem;
+              `}
+            >
+              達成した人
+            </h2>
+            <Flex p="1rem" gap="md">
+              {data
+                ? data.achievers.map((achiever) => (
+                    <UserAvatar
+                      userId={achiever}
+                      key={achiever}
+                      iconSize="lg"
+                    />
+                  ))
+                : new Array(5)
+                    .fill(null)
+                    .map((_, i) => (
+                      <Skeleton key={i} width="56px" height="56px" />
+                    ))}
+            </Flex>
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 };
 

@@ -20,8 +20,8 @@ const Home: NextPage = () => {
   return (
     <>
       <Description
-        title="Next.js with Mantine UI Template"
-        description="Next.jsをMantine UIと一緒に色々セットアップしてあるオレオレテンプレートリポジトリです。ご利用は計画的に。"
+        title="traP Mission"
+        description="数々のミッションをこなし、一流のtraPerになろう！"
       />
       <Layout>
         <div
