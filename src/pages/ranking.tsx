@@ -1,7 +1,7 @@
+import { css } from '@emotion/react';
 import React from 'react';
 import useSWR from 'swr';
-import { HeaderResponsive } from '@/components/Header';
-import { Footer } from '@/components/MobileFooter';
+import { Layout } from '@/components/Layout';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type * as schema from '@/schema/schema';
@@ -16,11 +16,22 @@ function Ranking() {
   } else {
     return (
       <div>
-        <div>ランキング</div>
+        <h1
+          css={css`
+            height: 4rem;
+            text-align: center;
+          `}
+        >
+          ランキング
+        </h1>
         <div>
           {data.ranking.map((rank, index) => (
             <div key={rank}>
-              <div>
+              <div
+                css={css`
+                  text-align: center;
+                `}
+              >
                 {index + 1} {rank}
               </div>
             </div>
@@ -34,11 +45,9 @@ function Ranking() {
 export default function RankingPage() {
   return (
     <>
-      <HeaderResponsive />
-      <main>
+      <Layout>
         <Ranking />
-      </main>
-      <Footer />
+      </Layout>
     </>
   );
 }
