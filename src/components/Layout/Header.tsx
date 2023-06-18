@@ -9,12 +9,13 @@ import {
   Flex,
 } from '@mantine/core';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 import { links } from './links';
 import { AuthButton } from '@/components/AuthButton';
-import { pagesPath } from '@/lib/$path';
+import { pagesPath, staticPath } from '@/lib/$path';
 
 type HeaderLinkProps = {
   href: string;
@@ -100,7 +101,7 @@ export const Header: FC = () => {
         <Link
           href={pagesPath.$url()}
           css={css`
-            padding: ${rem(8)} ${rem(12)};
+            padding: 0 ${rem(12)} ${rem(4)} ${rem(12)};
             border-radius: ${theme.radius.sm};
             color: ${theme.colors.dark[5]};
             font-weight: bold;
@@ -111,7 +112,12 @@ export const Header: FC = () => {
             }
           `}
         >
-          ★ traP Mission
+          <Image
+            src={staticPath.traP_Mission_Logo_png}
+            alt="traP Mission"
+            width={98}
+            height={28}
+          />
         </Link>
         <Flex gap={8}>
           <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>

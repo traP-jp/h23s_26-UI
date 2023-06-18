@@ -25,7 +25,8 @@ export const staticPath = {
   icon_svg: '/icon.svg',
   landing_page_image_png: '/landing-page-image.png',
   manifest_webmanifest: '/manifest.webmanifest',
-  ogp_png: '/ogp.png'
+  ogp_png: '/ogp.png',
+  traP_Mission_Logo_png: '/traP_Mission_Logo.png'
 } as const
 
 export type StaticPath = typeof staticPath
