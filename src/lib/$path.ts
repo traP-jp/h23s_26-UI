@@ -11,6 +11,7 @@ export const staticPath = {
   icon_192_png: '/icon-192.png',
   icon_512_png: '/icon-512.png',
   icon_svg: '/icon.svg',
+  landing_page_image_png: '/landing-page-image.png',
   manifest_webmanifest: '/manifest.webmanifest',
   ogp_png: '/ogp.png'
 } as const

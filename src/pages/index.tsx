@@ -8,8 +8,10 @@ import {
   rem,
 } from '@mantine/core';
 import type { NextPage } from 'next';
+import Image from 'next/image';
 import { Description } from '@/components/Description';
 import { Layout } from '@/components/Layout';
+import { staticPath } from '@/lib/$path';
 
 const Home: NextPage = () => {
   const theme = useMantineTheme();
@@ -106,6 +108,18 @@ const Home: NextPage = () => {
                 挑戦する
               </Button>
             </Group>
+
+            <div
+              css={css`
+                position: relative;
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto;
+                aspect-ratio: 1/1;
+              `}
+            >
+              <Image src={staticPath.landing_page_image_png} alt="" fill />
+            </div>
           </Container>
         </div>
       </Layout>
