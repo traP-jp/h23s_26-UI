@@ -8,7 +8,7 @@ export type GetUsersResponse = GetUserResponse[];
 
 export type PatchUserMissionRequest = {
   clear: boolean;
-  clearedAt: Date;
+  clearedAt: string;
 };
 
 export type GetMissionResponse = {

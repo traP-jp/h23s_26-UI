@@ -28,12 +28,15 @@
     "@mantine/hooks": "^6.0.13",
     "@mantine/next": "^6.0.13",
     "@tabler/icons-react": "^2.22.0",
+    "@types/canvas-confetti": "^1.6.0",
+    "canvas-confetti": "^1.6.0",
     "jotai": "^2.2.0",
     "next": "^13.4.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ress": "^5.0.2",
     "sharp": "^0.32.1",
+    "swr": "^2.1.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
