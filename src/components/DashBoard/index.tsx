@@ -8,8 +8,11 @@ import { RingGraph } from '@/components/DashBoard/RingGraph';
 import { useAllMissionsCount } from '@/components/DashBoard/useAllMissionsCount';
 import { useMyAchievesCount } from '@/components/DashBoard/useMyAchievesCount';
 import { Layout } from '@/components/Layout';
+import { useUserInfo } from '@/hooks/useUserInfo';
 
 export const DashBoard: FC = () => {
+  useUserInfo({ requireAuth: true });
+
   const theme = useMantineTheme();
   const myAchieveNumber = useMyAchievesCount();
   const allMissionNumber = useAllMissionsCount();
