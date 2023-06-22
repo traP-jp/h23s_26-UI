@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import { MantineProvider } from '@mantine/core';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
+import { ConfirmationProvider } from '@/app/Confirmation/ConfirmationProvider';
 import { GoogleTagManagerBody } from '@/components/GoogleTagManager';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -26,7 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <AnimatePresence mode="wait" initial>
-          <Component {...pageProps} />
+          <ConfirmationProvider>
+            <Component {...pageProps} />
+          </ConfirmationProvider>
         </AnimatePresence>
       </MantineProvider>
     </>
