@@ -21,8 +21,6 @@ export const useUserInfo = (option?: UseUserInfoOptions) => {
   useEffect(() => {
     if (!option?.requireAuth) return;
 
-    console.log('useUserInfo: requireAuth');
-
     openConfirmationDialog({
       message:
         'このページを表示するにはログインする必要があります。\nログイン画面 (外部ページ) に遷移してもよろしいですか？\n (キャンセルを押すとトップページに戻ります)',
