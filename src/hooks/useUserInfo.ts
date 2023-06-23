@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { useConfirmation } from '@/features/confirmation/useConfirmation';
+import type { FetchError } from '@/lib/fetcher';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetUserResponse } from '@/schema/schema';
@@ -13,10 +14,10 @@ type UseUserInfoOptions = {
 export const useUserInfo = (option?: UseUserInfoOptions) => {
   const { push } = useRouter();
   const { openConfirmationDialog } = useConfirmation();
-  const { data, error } = useSWR<
-    GetUserResponse,
-    { info: unknown; status: number }
-  >(`${getApiBaseUrl()}/users/me`, fetcher);
+  const { data, error } = useSWR<GetUserResponse, FetchError>(
+    `${getApiBaseUrl()}/users/me`,
+    fetcher,
+  );
 
   useEffect(() => {
     if (!option?.requireAuth) return;
