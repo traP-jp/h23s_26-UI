@@ -4,6 +4,7 @@ import { MantineProvider } from '@mantine/core';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import { GoogleTagManagerBody } from '@/components/GoogleTagManager';
+import { ConfirmationProvider } from '@/features/confirmation/ConfirmationProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -26,7 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <AnimatePresence mode="wait" initial>
-          <Component {...pageProps} />
+          <ConfirmationProvider>
+            <Component {...pageProps} />
+          </ConfirmationProvider>
         </AnimatePresence>
       </MantineProvider>
     </>

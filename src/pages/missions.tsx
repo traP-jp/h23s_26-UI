@@ -20,11 +20,11 @@ import type { GetMissionsResponse, GetUserResponse } from '@/schema/schema';
 const Missions: NextPage = () => {
   const theme = useMantineTheme();
 
-  const { data: missions } = useSWR<GetMissionsResponse>(
+  const { data: missions, error: missionsError } = useSWR<GetMissionsResponse>(
     `${getApiBaseUrl()}/missions`,
     fetcher,
   );
-  const { data: user } = useSWR<GetUserResponse>(
+  const { data: user, error: userError } = useSWR<GetUserResponse>(
     `${getApiBaseUrl()}/users/me`,
     fetcher,
   );
@@ -49,19 +49,21 @@ const Missions: NextPage = () => {
             `}
           >
             <div>Missions</div>
-            <RingProgress
-              sections={[
-                {
-                  color: theme.primaryColor,
-                  value:
-                    user && missions
-                      ? (user?.achieves.length / missions?.length) * 100
-                      : 0,
-                },
-              ]}
-              size={32}
-              thickness={4}
-            />
+            {!missionsError && !userError && (
+              <RingProgress
+                sections={[
+                  {
+                    color: theme.primaryColor,
+                    value:
+                      user && missions
+                        ? (user.achieves.length / missions.length) * 100
+                        : 0,
+                  },
+                ]}
+                size={32}
+                thickness={4}
+              />
+            )}
           </h1>
           <div
             css={css`
