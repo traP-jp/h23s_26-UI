@@ -81,7 +81,7 @@ const Mission: NextPage = () => {
   return (
     <>
       <Description
-        title={`Mission ${missionId} | traP Mission`}
+        title="Mission | traP Mission"
         description="数々のミッションをこなし、一流のtraPerになろう！"
       />
       <Layout>
