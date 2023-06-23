@@ -29,7 +29,7 @@ import type {
 const Mission: NextPage = () => {
   const theme = useMantineTheme();
   const { missionId } = useRouter().query as { missionId: string };
-  const { data } = useSWR<GetMissionResponse>(
+  const { data, mutate } = useSWR<GetMissionResponse>(
     `${getApiBaseUrl()}/missions/${missionId}`,
     fetcher,
   );
@@ -66,6 +66,15 @@ const Mission: NextPage = () => {
           variant: 'error',
         });
       }
+
+      mutate(data, {
+        optimisticData: {
+          ...data,
+          achievers: clear
+            ? data.achievers.concat(userId)
+            : data.achievers.filter((user) => user !== userId),
+        },
+      });
 
       if (clear) {
         animate();
