@@ -13,13 +13,15 @@ type UseUserInfoOptions = {
 export const useUserInfo = (option?: UseUserInfoOptions) => {
   const { push } = useRouter();
   const { openConfirmationDialog } = useConfirmation();
-  const { data, error } = useSWR<GetUserResponse>(
-    `${getApiBaseUrl()}/users/me`,
-    fetcher,
-  );
+  const { data, error } = useSWR<
+    GetUserResponse,
+    { info: unknown; status: number }
+  >(`${getApiBaseUrl()}/users/me`, fetcher);
 
   useEffect(() => {
     if (!option?.requireAuth) return;
+    if (!error) return;
+    if (error.status !== 401) return;
 
     openConfirmationDialog({
       message:
@@ -31,7 +33,7 @@ export const useUserInfo = (option?: UseUserInfoOptions) => {
         push('/');
       },
     });
-  }, [openConfirmationDialog, option?.requireAuth, push]);
+  }, [error, openConfirmationDialog, option?.requireAuth, push]);
 
   if (error) {
     return undefined;
