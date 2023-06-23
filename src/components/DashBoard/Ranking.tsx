@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { Center, Skeleton, Text, useMantineTheme } from '@mantine/core';
 import type { FC } from 'react';
 import useSWR from 'swr';
+import { getRankSuffix } from '@/components/DashBoard/getRankSuffix';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetUserResponse } from '@/schema/schema';
@@ -42,7 +43,7 @@ export const Ranking: FC = () => {
                 font-weight: 500;
               `}
             >
-              th
+              {getRankSuffix(data.ranking)}
             </span>
           </Text>
         ) : (
