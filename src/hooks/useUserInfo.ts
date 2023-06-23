@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import useSWR from 'swr';
-import { useConfirmation } from '@/app/Confirmation/useConfirmation';
+import { useConfirmation } from '@/features/confirmation/useConfirmation';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 import type { GetUserResponse } from '@/schema/schema';

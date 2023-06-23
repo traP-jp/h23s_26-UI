@@ -8,7 +8,7 @@ import {
   Stack,
 } from '@mantine/core';
 import type { FC, ReactNode } from 'react';
-import { useConfirmation } from '@/app/Confirmation/useConfirmation';
+import { useConfirmation } from '@/features/confirmation/useConfirmation';
 
 type ConfirmationProvider = {
   children: ReactNode;

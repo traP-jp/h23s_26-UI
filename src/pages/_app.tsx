@@ -3,8 +3,8 @@ import '@/styles/global.css';
 import { MantineProvider } from '@mantine/core';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
-import { ConfirmationProvider } from '@/app/Confirmation/ConfirmationProvider';
 import { GoogleTagManagerBody } from '@/components/GoogleTagManager';
+import { ConfirmationProvider } from '@/features/confirmation/ConfirmationProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
