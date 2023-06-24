@@ -13,9 +13,10 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { Description } from '@/components/Description';
 import { Layout } from '@/components/Layout';
+import { useUserInfo } from '@/hooks/useUserInfo';
 import { fetcher } from '@/lib/fetcher';
 import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetMissionsResponse, GetUserResponse } from '@/schema/schema';
+import type { GetMissionsResponse } from '@/schema/schema';
 
 const Missions: NextPage = () => {
   const theme = useMantineTheme();
@@ -24,10 +25,7 @@ const Missions: NextPage = () => {
     `${getApiBaseUrl()}/missions`,
     fetcher,
   );
-  const { data: user, error: userError } = useSWR<GetUserResponse>(
-    `${getApiBaseUrl()}/users/me`,
-    fetcher,
-  );
+  const { data: user, error: userError } = useUserInfo();
 
   return (
     <>

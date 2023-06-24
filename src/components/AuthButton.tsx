@@ -9,14 +9,14 @@ import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
 
 export const AuthButton: FC = () => {
   const theme = useMantineTheme();
-  const { userId } = useUserInfo() ?? { userId: undefined };
+  const { data, error } = useUserInfo();
   const { push } = useRouter();
   const isMobile = useMediaQuery(theme.fn.smallerThan('sm'));
 
-  if (userId !== undefined) {
+  if (error === undefined && data !== undefined) {
     return (
       <>
-        <UserAvatar userId={userId} iconSize={isMobile ? 24 : 32} />
+        <UserAvatar userId={data.id} iconSize={isMobile ? 24 : 32} />
       </>
     );
   }

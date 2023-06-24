@@ -29,19 +29,20 @@ import type {
 const Mission: NextPage = () => {
   const theme = useMantineTheme();
   const { missionId } = useRouter().query as { missionId: string };
-  const { data } = useSWR<GetMissionResponse>(
+  const { data: missions } = useSWR<GetMissionResponse>(
     `${getApiBaseUrl()}/missions/${missionId}`,
     fetcher,
   );
-  const { userId } = useUserInfo() ?? { userId: undefined };
+  const { data: user, error: userError } = useUserInfo();
   const { notify } = useNotification();
   const { animate, Canvas } = useClearAnimation();
 
   const toggleClearHandler = async () => {
-    if (data === undefined) return;
-    if (userId === undefined) return;
+    if (missions === undefined) return;
+    if (user === undefined) return;
+    if (userError !== undefined) return;
 
-    const clear = userId ? !data.achievers.includes(userId) : false;
+    const clear = user.id ? !missions.achievers.includes(user.id) : false;
 
     const body: PatchUserMissionRequest = {
       clear,
@@ -50,7 +51,7 @@ const Mission: NextPage = () => {
 
     try {
       const res = await fetch(
-        `${getApiBaseUrl()}/users/${userId}/missions/${missionId}`,
+        `${getApiBaseUrl()}/users/${user.id}/missions/${missionId}`,
         {
           method: 'PATCH',
           headers: {
@@ -95,8 +96,8 @@ const Mission: NextPage = () => {
               line-height: 2rem;
             `}
           >
-            {data ? (
-              data.name
+            {missions ? (
+              missions.name
             ) : (
               <Skeleton width="70%" height="2rem" radius="xl" />
             )}
@@ -107,14 +108,14 @@ const Mission: NextPage = () => {
               padding: 1rem;
             `}
           >
-            {data ? (
+            {missions ? (
               <Text
                 color="dimmed"
                 css={css`
                   line-height: 1.15rem;
                 `}
               >
-                {data.description}
+                {missions.description}
               </Text>
             ) : (
               <Skeleton width="100%" height="1.15rem" radius="xl" />
@@ -125,8 +126,10 @@ const Mission: NextPage = () => {
 
           <Center>
             <div>
-              {data ? (
-                userId !== undefined && data.achievers.includes(userId) ? (
+              {missions ? (
+                user !== undefined &&
+                userError === undefined &&
+                missions.achievers.includes(user.id) ? (
                   <Stack>
                     <Button variant="filled" size="lg" disabled>
                       クリア済み
@@ -177,8 +180,8 @@ const Mission: NextPage = () => {
               達成した人
             </h2>
             <Flex p="1rem" gap="md">
-              {data
-                ? data.achievers.map((achiever) => (
+              {missions
+                ? missions.achievers.map((achiever) => (
                     <UserAvatar
                       userId={achiever}
                       key={achiever}

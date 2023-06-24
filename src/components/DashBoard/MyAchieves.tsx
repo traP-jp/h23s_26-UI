@@ -1,18 +1,14 @@
 import { Flex, Loader } from '@mantine/core';
 import type { FC } from 'react';
-import useSWR from 'swr';
 import { MissionPanel } from '@/components/DashBoard/MissionPanel';
-import { fetcher } from '@/lib/fetcher';
-import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetUserResponse } from '@/schema/schema';
+import { useUserInfo } from '@/hooks/useUserInfo';
 
 export const MyAchieves: FC = () => {
-  const { data } = useSWR<GetUserResponse>(
-    `${getApiBaseUrl()}/users/me`,
-    fetcher,
-  );
+  const { data, error } = useUserInfo();
 
   if (data == undefined) return <Loader variant="oval" />;
+
+  if (error !== undefined) return <div>Something went wrong</div>;
 
   return (
     <Flex wrap="wrap" gap="xs" p="lg">

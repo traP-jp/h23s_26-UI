@@ -1,18 +1,12 @@
 import { css } from '@emotion/react';
 import { Center, Skeleton, Text, useMantineTheme } from '@mantine/core';
 import type { FC } from 'react';
-import useSWR from 'swr';
 import { getRankSuffix } from '@/components/DashBoard/getRankSuffix';
-import { fetcher } from '@/lib/fetcher';
-import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetUserResponse } from '@/schema/schema';
+import { useUserInfo } from '@/hooks/useUserInfo';
 
 export const Ranking: FC = () => {
   const theme = useMantineTheme();
-  const { data } = useSWR<GetUserResponse>(
-    `${getApiBaseUrl()}/users/me`,
-    fetcher,
-  );
+  const { data } = useUserInfo();
 
   const getRankColor = (rank: number) =>
     rank === 1
