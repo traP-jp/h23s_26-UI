@@ -70,9 +70,9 @@ export const DashBoard: FC = () => {
           <Center>
             <h2>Your recent achievement</h2>
           </Center>
-          <Center>
+          <div>
             <MyAchieves />
-          </Center>
+          </div>
         </div>
       </Layout>
     </>
