@@ -1,4 +1,4 @@
-type FetchError = Error & {
+export type FetchError = Error & {
   info?: unknown;
   status?: number;
 };
