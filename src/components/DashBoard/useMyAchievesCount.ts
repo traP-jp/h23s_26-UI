@@ -1,13 +1,7 @@
-import useSWR from 'swr';
-import { fetcher } from '@/lib/fetcher';
-import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
-import type { GetUserResponse } from '@/schema/schema';
+import { useUserInfo } from '@/hooks/useUserInfo';
 
 export const useMyAchievesCount = () => {
-  const { data } = useSWR<GetUserResponse>(
-    `${getApiBaseUrl()}/users/me`,
-    fetcher,
-  );
+  const { data } = useUserInfo();
 
   return data?.achieves.length;
 };

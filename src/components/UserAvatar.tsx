@@ -15,13 +15,11 @@ export const UserAvatar: FC<UserAvatarProps> = ({ userId, iconSize }) => {
 };
 
 export const MyUserAvatar: FC<Omit<UserAvatarProps, 'userId'>> = (props) => {
-  const info = useUserInfo();
+  const { data, error } = useUserInfo();
 
-  if (info === undefined) return null;
+  if (data === undefined) return <Skeleton circle />;
 
-  const { userId } = info;
+  if (error !== undefined) return null;
 
-  if (userId === undefined) return <Skeleton circle />;
-
-  return <UserAvatar userId={userId} {...props} />;
+  return <UserAvatar userId={data.id} {...props} />;
 };

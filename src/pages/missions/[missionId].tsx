@@ -59,30 +59,31 @@ type MissionPageProps = {
 const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
   const theme = useMantineTheme();
   const { missionId } = useRouter().query as { missionId: string };
-  const { data, mutate } = useSWR<GetMissionResponse>(
+  const { data: mission, mutate } = useSWR<GetMissionResponse>(
     `${getApiBaseUrl()}/missions/${missionId}`,
     fetcher,
   );
-  const { userId } = useUserInfo() ?? { userId: undefined };
+  const { data: user, error: userError } = useUserInfo();
   const { notify } = useNotification();
   const { animate, Canvas } = useClearAnimation();
 
   const toggleClearHandler = async () => {
-    if (data === undefined) return;
-    if (userId === undefined) return;
+    if (mission === undefined) return;
+    if (user === undefined) return;
+    if (userError !== undefined) return;
 
-    const clear = userId ? !data.achievers.includes(userId) : false;
+    const clear = user.id ? !mission.achievers.includes(user.id) : false;
 
     try {
-      await mutate(updateMissionState(missionId, userId, clear), {
+      await mutate(updateMissionState(missionId, user.id, clear), {
         populateCache: true,
         revalidate: false,
         rollbackOnError: true,
         optimisticData: {
-          ...data,
+          ...mission,
           achievers: clear
-            ? data.achievers.concat(userId)
-            : data.achievers.filter((user) => user !== userId),
+            ? mission.achievers.concat(user.id)
+            : mission.achievers.filter((achiever) => achiever !== user.id),
         },
       });
 
@@ -115,8 +116,8 @@ const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
               line-height: 2rem;
             `}
           >
-            {data ? (
-              data.name
+            {mission ? (
+              mission.name
             ) : (
               <Skeleton width="70%" height="2rem" radius="xl" />
             )}
@@ -127,14 +128,14 @@ const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
               padding: 1rem;
             `}
           >
-            {data ? (
+            {mission ? (
               <Text
                 color="dimmed"
                 css={css`
                   line-height: 1.15rem;
                 `}
               >
-                {data.description}
+                {mission.description}
               </Text>
             ) : (
               <Skeleton width="100%" height="1.15rem" radius="xl" />
@@ -145,8 +146,10 @@ const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
 
           <Center>
             <div>
-              {data ? (
-                userId !== undefined && data.achievers.includes(userId) ? (
+              {mission ? (
+                user !== undefined &&
+                userError === undefined &&
+                mission.achievers.includes(user.id) ? (
                   <Stack>
                     <Button variant="filled" size="lg" disabled>
                       クリア済み
@@ -197,8 +200,8 @@ const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
               達成した人
             </h2>
             <Flex p="1rem" gap="md">
-              {data
-                ? data.achievers.map((achiever) => (
+              {mission
+                ? mission.achievers.map((achiever) => (
                     <UserAvatar
                       userId={achiever}
                       key={achiever}

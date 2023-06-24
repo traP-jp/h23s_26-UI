@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import type { SWRResponse } from 'swr';
 import useSWR from 'swr';
 import { useConfirmation } from '@/features/confirmation/useConfirmation';
 import type { FetchError } from '@/lib/fetcher';
@@ -11,13 +12,16 @@ type UseUserInfoOptions = {
   requireAuth?: boolean;
 };
 
-export const useUserInfo = (option?: UseUserInfoOptions) => {
+export const useUserInfo = (
+  option?: UseUserInfoOptions,
+): SWRResponse<GetUserResponse, FetchError> => {
   const { push } = useRouter();
   const { openConfirmationDialog } = useConfirmation();
-  const { data, error } = useSWR<GetUserResponse, FetchError>(
+  const response = useSWR<GetUserResponse, FetchError>(
     `${getApiBaseUrl()}/users/me`,
     fetcher,
   );
+  const { error } = response;
 
   useEffect(() => {
     if (!option?.requireAuth) return;
@@ -36,9 +40,5 @@ export const useUserInfo = (option?: UseUserInfoOptions) => {
     });
   }, [error, openConfirmationDialog, option?.requireAuth, push]);
 
-  if (error) {
-    return undefined;
-  }
-
-  return { userId: data?.id };
+  return response;
 };
