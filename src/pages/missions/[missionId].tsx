@@ -10,9 +10,10 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import type { NextPage } from 'next';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import { z } from 'zod';
 import { Description } from '@/components/Description';
 import { Layout } from '@/components/Layout';
 import { useNotification } from '@/components/Notification/useNotification';
@@ -51,7 +52,11 @@ const updateMissionState = async (
   return newMission;
 };
 
-const Mission: NextPage = () => {
+type MissionPageProps = {
+  missionName: string;
+};
+
+const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
   const theme = useMantineTheme();
   const { missionId } = useRouter().query as { missionId: string };
   const { data, mutate } = useSWR<GetMissionResponse>(
@@ -96,7 +101,7 @@ const Mission: NextPage = () => {
   return (
     <>
       <Description
-        title={`Mission ${missionId} | traP Mission`}
+        title={`Mission ${missionName} | traP Mission`}
         description="数々のミッションをこなし、一流のtraPerになろう！"
       />
       <Layout>
@@ -214,3 +219,53 @@ const Mission: NextPage = () => {
 };
 
 export default Mission;
+
+export const getStaticProps: GetStaticProps<MissionPageProps> = async ({
+  params,
+}) => {
+  const param = z.object({ missionId: z.string() }).safeParse(params);
+  if (!param.success) {
+    return {
+      props: {
+        missionName: '',
+      },
+      revalidate: 60,
+    };
+  }
+
+  const res = await fetch(
+    `${getApiBaseUrl()}/missions/${param.data.missionId}`,
+  );
+  // TODO: zodの型とTypeScriptの型をz.inferで同期させる
+  const missionResponse = z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      description: z.string(),
+      achievers: z.array(z.string()),
+    })
+    .safeParse(await res.json());
+
+  if (!missionResponse.success) {
+    return {
+      props: {
+        missionName: 'Mission',
+      },
+      revalidate: 60,
+    };
+  }
+
+  return {
+    props: {
+      missionName: missionResponse.data.name,
+    },
+    revalidate: 60,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
