@@ -1,20 +1,27 @@
-import { Flex, Loader } from '@mantine/core';
+import { Loader } from '@mantine/core';
 import type { FC } from 'react';
-import { MissionPanel } from '@/components/DashBoard/MissionPanel';
+import useSWR from 'swr';
+import { MissionList } from '@/components/MissionList';
 import { useUserInfo } from '@/hooks/useUserInfo';
+import { fetcher } from '@/lib/fetcher';
+import { getApiBaseUrl } from '@/lib/getApiBaseUrl';
+import type { GetMissionsResponse } from '@/schema/schema';
 
 export const MyAchieves: FC = () => {
-  const { data, error } = useUserInfo();
+  const { data: user, error } = useUserInfo();
+  const { data: missions } = useSWR<GetMissionsResponse>(
+    `${getApiBaseUrl()}/missions`,
+    fetcher,
+  );
 
-  if (data == undefined) return <Loader variant="oval" />;
+  if (user == undefined || missions === undefined)
+    return <Loader variant="oval" />;
 
   if (error !== undefined) return <div>Something went wrong</div>;
 
-  return (
-    <Flex wrap="wrap" gap="xs" p="lg">
-      {data.achieves.map((missionId) => (
-        <MissionPanel key={missionId} missionId={missionId} />
-      ))}
-    </Flex>
-  );
+  const achieves = missions
+    ? missions.filter((mission) => user.achieves.includes(mission.id))
+    : undefined;
+
+  return <MissionList missions={achieves} />;
 };

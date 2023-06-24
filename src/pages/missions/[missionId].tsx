@@ -10,9 +10,10 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import type { NextPage } from 'next';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import { z } from 'zod';
 import { Description } from '@/components/Description';
 import { Layout } from '@/components/Layout';
 import { useNotification } from '@/components/Notification/useNotification';
@@ -26,10 +27,39 @@ import type {
   PatchUserMissionRequest,
 } from '@/schema/schema';
 
-const Mission: NextPage = () => {
+const updateMissionState = async (
+  missionId: string,
+  userId: string,
+  clear: boolean,
+) => {
+  const body: PatchUserMissionRequest = {
+    clear,
+    clearedAt: new Date().toISOString(),
+  };
+
+  await fetch(`${getApiBaseUrl()}/users/${userId}/missions/${missionId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  const newMission: GetMissionResponse = await fetch(
+    `${getApiBaseUrl()}/missions/${missionId}`,
+  ).then((res) => res.json());
+
+  return newMission;
+};
+
+type MissionPageProps = {
+  missionName: string;
+};
+
+const Mission: NextPage<MissionPageProps> = ({ missionName }) => {
   const theme = useMantineTheme();
   const { missionId } = useRouter().query as { missionId: string };
-  const { data: missions } = useSWR<GetMissionResponse>(
+  const { data: mission, mutate } = useSWR<GetMissionResponse>(
     `${getApiBaseUrl()}/missions/${missionId}`,
     fetcher,
   );
@@ -38,40 +68,30 @@ const Mission: NextPage = () => {
   const { animate, Canvas } = useClearAnimation();
 
   const toggleClearHandler = async () => {
-    if (missions === undefined) return;
+    if (mission === undefined) return;
     if (user === undefined) return;
     if (userError !== undefined) return;
 
-    const clear = user.id ? !missions.achievers.includes(user.id) : false;
-
-    const body: PatchUserMissionRequest = {
-      clear,
-      clearedAt: new Date().toISOString(),
-    };
+    const clear = user.id ? !mission.achievers.includes(user.id) : false;
 
     try {
-      const res = await fetch(
-        `${getApiBaseUrl()}/users/${user.id}/missions/${missionId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
+      await mutate(updateMissionState(missionId, user.id, clear), {
+        populateCache: true,
+        revalidate: false,
+        rollbackOnError: true,
+        optimisticData: {
+          ...mission,
+          achievers: clear
+            ? mission.achievers.concat(user.id)
+            : mission.achievers.filter((achiever) => achiever !== user.id),
         },
-      );
-
-      if (!res.ok) {
-        return notify({
-          title: 'エラーが発生しました',
-          variant: 'error',
-        });
-      }
+      });
 
       if (clear) {
         animate();
       }
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       return notify({
         title: 'エラーが発生しました',
         variant: 'error',
@@ -82,7 +102,7 @@ const Mission: NextPage = () => {
   return (
     <>
       <Description
-        title={`Mission ${missionId} | traP Mission`}
+        title={`Mission ${missionName} | traP Mission`}
         description="数々のミッションをこなし、一流のtraPerになろう！"
       />
       <Layout>
@@ -96,8 +116,8 @@ const Mission: NextPage = () => {
               line-height: 2rem;
             `}
           >
-            {missions ? (
-              missions.name
+            {mission ? (
+              mission.name
             ) : (
               <Skeleton width="70%" height="2rem" radius="xl" />
             )}
@@ -108,14 +128,14 @@ const Mission: NextPage = () => {
               padding: 1rem;
             `}
           >
-            {missions ? (
+            {mission ? (
               <Text
                 color="dimmed"
                 css={css`
                   line-height: 1.15rem;
                 `}
               >
-                {missions.description}
+                {mission.description}
               </Text>
             ) : (
               <Skeleton width="100%" height="1.15rem" radius="xl" />
@@ -126,10 +146,10 @@ const Mission: NextPage = () => {
 
           <Center>
             <div>
-              {missions ? (
+              {mission ? (
                 user !== undefined &&
                 userError === undefined &&
-                missions.achievers.includes(user.id) ? (
+                mission.achievers.includes(user.id) ? (
                   <Stack>
                     <Button variant="filled" size="lg" disabled>
                       クリア済み
@@ -180,8 +200,8 @@ const Mission: NextPage = () => {
               達成した人
             </h2>
             <Flex p="1rem" gap="md">
-              {missions
-                ? missions.achievers.map((achiever) => (
+              {mission
+                ? mission.achievers.map((achiever) => (
                     <UserAvatar
                       userId={achiever}
                       key={achiever}
@@ -202,3 +222,53 @@ const Mission: NextPage = () => {
 };
 
 export default Mission;
+
+export const getStaticProps: GetStaticProps<MissionPageProps> = async ({
+  params,
+}) => {
+  const param = z.object({ missionId: z.string() }).safeParse(params);
+  if (!param.success) {
+    return {
+      props: {
+        missionName: '',
+      },
+      revalidate: 60,
+    };
+  }
+
+  const res = await fetch(
+    `${getApiBaseUrl()}/missions/${param.data.missionId}`,
+  );
+  // TODO: zodの型とTypeScriptの型をz.inferで同期させる
+  const missionResponse = z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      description: z.string(),
+      achievers: z.array(z.string()),
+    })
+    .safeParse(await res.json());
+
+  if (!missionResponse.success) {
+    return {
+      props: {
+        missionName: 'Mission',
+      },
+      revalidate: 60,
+    };
+  }
+
+  return {
+    props: {
+      missionName: missionResponse.data.name,
+    },
+    revalidate: 60,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
