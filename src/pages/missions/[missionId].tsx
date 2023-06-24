@@ -26,10 +26,35 @@ import type {
   PatchUserMissionRequest,
 } from '@/schema/schema';
 
+const updateMissionState = async (
+  missionId: string,
+  userId: string,
+  clear: boolean,
+) => {
+  const body: PatchUserMissionRequest = {
+    clear,
+    clearedAt: new Date().toISOString(),
+  };
+
+  await fetch(`${getApiBaseUrl()}/users/${userId}/missions/${missionId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  const newMission: GetMissionResponse = await fetch(
+    `${getApiBaseUrl()}/missions/${missionId}`,
+  ).then((res) => res.json());
+
+  return newMission;
+};
+
 const Mission: NextPage = () => {
   const theme = useMantineTheme();
   const { missionId } = useRouter().query as { missionId: string };
-  const { data } = useSWR<GetMissionResponse>(
+  const { data, mutate } = useSWR<GetMissionResponse>(
     `${getApiBaseUrl()}/missions/${missionId}`,
     fetcher,
   );
@@ -43,34 +68,24 @@ const Mission: NextPage = () => {
 
     const clear = userId ? !data.achievers.includes(userId) : false;
 
-    const body: PatchUserMissionRequest = {
-      clear,
-      clearedAt: new Date().toISOString(),
-    };
-
     try {
-      const res = await fetch(
-        `${getApiBaseUrl()}/users/${userId}/missions/${missionId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
+      await mutate(updateMissionState(missionId, userId, clear), {
+        populateCache: true,
+        revalidate: false,
+        rollbackOnError: true,
+        optimisticData: {
+          ...data,
+          achievers: clear
+            ? data.achievers.concat(userId)
+            : data.achievers.filter((user) => user !== userId),
         },
-      );
-
-      if (!res.ok) {
-        return notify({
-          title: 'エラーが発生しました',
-          variant: 'error',
-        });
-      }
+      });
 
       if (clear) {
         animate();
       }
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       return notify({
         title: 'エラーが発生しました',
         variant: 'error',
