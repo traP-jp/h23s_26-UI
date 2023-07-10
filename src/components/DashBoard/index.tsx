@@ -52,7 +52,7 @@ export const DashBoard: FC = () => {
             <h2>Your Shinchoku</h2>
             <RingGraph
               myAchieves={myAchieveNumber ?? 0}
-              allMissions={allMissionNumber ?? 1}
+              allMissions={allMissionNumber ?? 0}
             />
           </div>
           <div
